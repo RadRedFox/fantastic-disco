@@ -1,6 +1,6 @@
 export type FilloutFilterClauseType = {
 	id: string
-	condition: 'equals' | 'does_not_equal' | 'greater_then' | 'less_than'
+	condition: 'equals' | 'does_not_equal' | 'greater_than' | 'less_than'
 	value: number | string
 }
 

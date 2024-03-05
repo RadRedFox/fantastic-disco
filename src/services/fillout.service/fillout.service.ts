@@ -43,12 +43,15 @@ export const requestFormResponses = async ( formId: string, {
 	return await result.json()
 }
 
-//* Run filter on individual responses based on filer provided to factory
-const filterResponse = ( {
-	id,
-	condition,
-	value
-}: FilloutFilterClauseType ) => ( response: FilloutResponse ) => {
+//* Fitler response array based on the provided filter object, returning the resulting array
+export const filterResponses = (
+	{
+		id,
+		condition,
+		value
+	}: FilloutFilterClauseType,
+	responses: FilloutResponse[]
+) => responses.filter( ( response: FilloutResponse ) => {
 	const question = response.questions.find( ( q ) => q.id === id )
 
 	if ( !question ) return false
@@ -58,21 +61,11 @@ const filterResponse = ( {
 			return question.value === value
 		case 'does_not_equal':
 			return question.value !== value
-		case 'greater_then':
+		case 'greater_than':
 			return question.value > value
 		case 'less_than':
 			return question.value < value
 		default:
 			return false
 	}
-}
-
-//* Fitler response array based on the provided filter object, returning the resulting array
-export const filterResponses = (
-	filter: FilloutFilterClauseType,
-	responses: FilloutResponse[]
-) => {
-	let updatedResponses = responses.filter( filterResponse( filter ) )
-
-	return responses.filter( filterResponse( filter ) )
-}
+} )
